@@ -32,15 +32,28 @@
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-    .selector-aula {
+    /* Botones de aulas grandes y cómodos para celular */
+    .selector-aulas {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
       margin-bottom: 20px;
-      text-align: center;
     }
-    select {
-      padding: 10px;
+    .btn-aula {
+      padding: 12px 25px;
       font-size: 16px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
+      font-weight: bold;
+      background-color: #e9ecef;
+      color: #333;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-aula.active {
+      background-color: #007bff;
+      color: white;
+      border-color: #0056b3;
     }
     table {
       width: 100%;
@@ -49,7 +62,7 @@
     }
     th, td {
       border: 1px solid #ddd;
-      padding: 8px;
+      padding: 10px;
       text-align: left;
       font-size: 14px;
     }
@@ -59,8 +72,9 @@
     }
     input[type="text"] {
       width: 60px;
-      padding: 5px;
+      padding: 6px;
       text-align: center;
+      font-size: 14px;
     }
     .loading {
       text-align: center;
@@ -76,15 +90,11 @@
     <h1>EFSA</h1>
     <div class="subtitle">Gestión y Carga de Notas</div>
     
-    <!-- SELECCIÓN DE AULA AUTOMÁTICA -->
-    <!-- SELECCIÓN DE AULA -->
-    <div class="selector-aula" style="text-align: center; margin-bottom: 20px;">
-      <label for="selectAula" style="font-weight: bold; margin-right: 10px;">Aula:</label>
-      <select id="selectAula" onchange="cargarDatosAula()" style="padding: 10px; font-size: 16px; background: white; border: 1px solid #007bff; border-radius: 5px; cursor: pointer;">
-        <option value="101">Aula 101</option>
-        <option value="102">Aula 102</option>
-        <option value="103">Aula 103</option>
-      </select>
+    <!-- BOTONES DE SELECCIÓN DE AULA -->
+    <div class="selector-aulas">
+      <button id="btn-101" class="btn-aula active" onclick="cambiarAula('101')">Aula 101</button>
+      <button id="btn-102" class="btn-aula" onclick="cambiarAula('102')">Aula 102</button>
+      <button id="btn-103" class="btn-aula" onclick="cambiarAula('103')">Aula 103</button>
     </div>
 
     <div id="loading" class="loading" style="display: none;">Cargando alumnos de la planilla...</div>
@@ -102,7 +112,7 @@
           </tr>
         </thead>
         <tbody id="tabla-cuerpo">
-          <!-- Los alumnos cargados a mano en Google Sheets aparecerán acá solos -->
+          <!-- Los alumnos aparecerán acá automáticamente -->
         </tbody>
       </table>
     </div>
@@ -111,13 +121,25 @@
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbzhD-cPETpNZ8QvMTJ5qJr9yh0cv0pgOcUEG-oEVVOr1onNFPsxDz9yBFAH_8aigLJWAA/exec";
 
-    // Carga automática al iniciar la página y al cambiar de aula
+    let aulaActual = "101";
+
+    // Cargar automáticamente al iniciar la página
     window.onload = function() {
-      cargarDatosAula();
+      cargarDatosAula(aulaActual);
     };
 
-    async function cargarDatosAula() {
-      const aula = document.getElementById("selectAula").value;
+    function cambiarAula(aula) {
+      aulaActual = aula;
+      
+      // Actualizar estilos de los botones
+      document.querySelectorAll('.btn-aula').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(`btn-${aula}`).classList.add('active');
+
+      // Cargar los datos del aula seleccionada
+      cargarDatosAula(aula);
+    }
+
+    async function cargarDatosAula(aula) {
       const loadingDiv = document.getElementById("loading");
       const tablaCuerpo = document.getElementById("tabla-cuerpo");
 
