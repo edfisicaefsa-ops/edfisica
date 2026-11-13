@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Educación Física EFSA</title>
+    <title>Educación Física EFSA - Sistema de Evaluación</title>
     
-    <!-- Configuración PWA para instalar en celulares -->
+    <!-- Configuración PWA -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0f172a">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -47,7 +47,7 @@
 
         header {
             width: 100%;
-            max-width: 960px;
+            max-width: 1200px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -80,6 +80,28 @@
             letter-spacing: -0.02em;
         }
 
+        .nav-tabs {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .tab-btn {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: rgba(56, 189, 248, 0.15);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
         .btn-outline {
             background: transparent;
             color: var(--accent);
@@ -96,16 +118,67 @@
             background: rgba(56, 189, 248, 0.12);
         }
 
-        .main-grid {
+        .btn-primary {
+            background: var(--accent);
+            color: #0f172a;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
             width: 100%;
-            max-width: 960px;
+            transition: background 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-success {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--success);
+            border: 1px solid var(--success);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .view-section {
+            display: none;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .view-section.active {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1.5rem;
         }
 
-        @media (max-width: 768px) {
-            .main-grid {
+        .view-section.full-width {
+            display: none;
+            grid-template-columns: 1fr;
+        }
+
+        .view-section.full-width.active {
+            display: block;
+        }
+
+        @media (max-width: 900px) {
+            .view-section.active {
                 grid-template-columns: 1fr;
             }
         }
@@ -116,6 +189,7 @@
             border-radius: 16px;
             padding: 1.5rem;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            margin-bottom: 1.5rem;
         }
 
         .card-title {
@@ -140,35 +214,7 @@
             margin-bottom: 0.5rem;
         }
 
-        .gender-selector {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.75rem;
-        }
-
-        .gender-btn {
-            background: var(--bg-primary);
-            border: 2px solid var(--border);
-            color: var(--text-secondary);
-            padding: 0.75rem;
-            border-radius: 10px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .gender-btn.active {
-            border-color: var(--accent);
-            background: rgba(56, 189, 248, 0.12);
-            color: var(--text-primary);
-        }
-
-        select, input[type="text"] {
+        select, input[type="text"], input[type="number"] {
             width: 100%;
             background: var(--bg-primary);
             border: 2px solid var(--border);
@@ -180,7 +226,7 @@
             transition: border-color 0.2s;
         }
 
-        select:focus, input[type="text"]:focus {
+        select:focus, input[type="text"]:focus, input[type="number"]:focus {
             border-color: var(--accent);
         }
 
@@ -190,7 +236,31 @@
             margin-top: 0.4rem;
         }
 
-        /* Panel de Resultado */
+        /* Panel de Alumno Info */
+        .student-info-box {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .badge-status {
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .badge-alta { background: rgba(34, 197, 94, 0.2); color: var(--success); }
+        .badge-baja { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
+
+        /* Panel de Resultado Evaluador */
         .result-box {
             margin-top: 1.5rem;
             background: var(--bg-primary);
@@ -198,7 +268,6 @@
             border-radius: 14px;
             padding: 1.5rem;
             text-align: center;
-            transition: all 0.3s ease;
         }
 
         .result-label {
@@ -210,7 +279,7 @@
         }
 
         .grade-display {
-            font-size: 4.25rem;
+            font-size: 3.5rem;
             font-weight: 800;
             line-height: 1.1;
             margin: 0.25rem 0;
@@ -228,13 +297,56 @@
             color: var(--text-secondary);
         }
 
-        .grade-detail {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-top: 0.75rem;
+        /* Simulador de Hoja de Cálculo */
+        .sheet-container {
+            width: 100%;
+            overflow-x: auto;
+            background: #ffffff;
+            color: #000000;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
 
-        /* Tabla Lateral */
+        .sheet-toolbar {
+            background: #f8f9fa;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .sheet-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .sheet-table th, .sheet-table td {
+            border: 1px solid #dee2e6;
+            padding: 0.5rem 0.75rem;
+            text-align: center;
+        }
+
+        .sheet-table th {
+            background: #e9ecef;
+            color: #495057;
+            font-weight: 700;
+        }
+
+        .sheet-table tr:nth-child(even) {
+            background: #fdfdfe;
+        }
+
+        .sheet-table tr:hover {
+            background: #f1f3f5;
+        }
+
+        /* Tabla Lateral Baremos */
         .table-wrapper {
             overflow-x: auto;
         }
@@ -257,7 +369,6 @@
             font-weight: 600;
             font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
         }
 
         tr.highlight-row {
@@ -272,7 +383,7 @@
             color: var(--danger);
         }
 
-        /* Modal Baremos Completos */
+        /* Modal Baremos */
         .modal-backdrop {
             display: none;
             position: fixed;
@@ -283,11 +394,7 @@
             justify-content: center;
             padding: 1rem;
         }
-
-        .modal-backdrop.open {
-            display: flex;
-        }
-
+        .modal-backdrop.open { display: flex; }
         .modal-content {
             background: var(--bg-secondary);
             border: 1px solid var(--border);
@@ -299,7 +406,6 @@
             flex-direction: column;
             overflow: hidden;
         }
-
         .modal-header {
             padding: 1.25rem 1.5rem;
             border-bottom: 1px solid var(--border);
@@ -307,7 +413,6 @@
             justify-content: space-between;
             align-items: center;
         }
-
         .modal-body {
             padding: 1.5rem;
             overflow-y: auto;
@@ -315,38 +420,24 @@
             grid-template-columns: 1fr 1fr;
             gap: 1.25rem;
         }
-
-        @media (max-width: 700px) {
-            .modal-body {
-                grid-template-columns: 1fr;
-            }
-        }
-
         .mini-table-card {
             background: var(--bg-primary);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 1rem;
         }
-
         .mini-table-card h3 {
             font-size: 0.95rem;
             color: var(--accent);
             margin-bottom: 0.75rem;
             text-align: center;
         }
-
         .close-btn {
             background: none;
             border: none;
             color: var(--text-secondary);
             font-size: 1.5rem;
             cursor: pointer;
-            line-height: 1;
-        }
-
-        .close-btn:hover {
-            color: var(--text-primary);
         }
     </style>
 </head>
@@ -357,86 +448,178 @@
             <span class="brand-badge">EFSA</span>
             <h1>Educación Física EFSA</h1>
         </div>
-        <button class="btn-outline" id="openModalBtn">Ver Baremos Completos</button>
+        <div class="nav-tabs">
+            <button class="tab-btn active" data-target="evalView">Evaluador Individual</button>
+            <button class="tab-btn" data-target="sheetView">Simulador Google Sheet</button>
+        </div>
+        <button class="btn-outline" id="openModalBtn">Ver Baremos</button>
     </header>
 
-    <main class="main-grid">
-        <!-- Panel de Ingreso y Resultado -->
+    <!-- VISTA 1: EVALUADOR INDIVIDUAL -->
+    <main class="view-section active" id="evalView">
         <section class="card">
-            <div class="card-title">Evaluación Individual</div>
+            <div class="card-title">Selección y Alumno</div>
 
             <div class="form-group">
-                <label>Género</label>
-                <div class="gender-selector">
-                    <button type="button" class="gender-btn active" data-gender="M">Masculino</button>
-                    <button type="button" class="gender-btn" data-gender="F">Femenino</button>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="testSelect">Prueba Física</label>
-                <select id="testSelect">
-                    <option value="abdominales">Abdominales</option>
-                    <option value="flexiones">Flexoextensiones de brazos</option>
-                    <option value="1125mts">1125 mts.</option>
-                    <option value="circuito">Circuito</option>
+                <label for="aulaSelect">Aula (Pestaña)</label>
+                <select id="aulaSelect">
+                    <!-- Generado dinámicamente -->
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="scoreInput" id="inputLabel">Cantidad de repeticiones</label>
-                <input type="text" id="scoreInput" placeholder="Ej: 45" autocomplete="off">
-                <div class="helper-text" id="helperText">Ingresá un número entero de repeticiones.</div>
+                <label for="alumnoSelect">Aspirante</label>
+                <select id="alumnoSelect">
+                    <!-- Generado dinámicamente -->
+                </select>
             </div>
 
-            <div class="result-box" id="resultBox">
-                <div class="result-label">Calificación Obtenida</div>
+            <div class="student-info-box" id="studentInfoBox">
+                <div>
+                    <strong id="infoNombreApellido">-</strong><br>
+                    <small>Legajo: <span id="infoLegajo">-</span> | Género: <span id="infoGenero">-</span></small>
+                </div>
+                <div>
+                    <span class="badge-status badge-alta" id="infoEstadoBadge">ALTA</span>
+                    <button class="btn-danger" id="toggleStatusBtn" style="margin-left: 0.5rem; padding: 0.3rem 0.6rem; font-size: 0.75rem;">Dar de Baja</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="testSelect">Prueba a Evaluar</label>
+                <select id="testSelect">
+                    <option value="abdominales">Abdominales (Con Baremo)</option>
+                    <option value="flexiones">Flexoextensiones (Con Baremo)</option>
+                    <option value="1125mts">1125 mts. (Con Baremo)</option>
+                    <option value="circuito">Circuito -> Nota 4 (Con Baremo)</option>
+                    <option value="teorico123">Teórico 1, 2, 3 -> Nota 1 (Manual)</option>
+                    <option value="teorico45">Teórico 4 y 5 -> Reemplaza Nota 2 (Manual)</option>
+                    <option value="pistaObstaculos">Pista de Obstáculos -> Nota 3 (Manual)</option>
+                    <option value="teorico67">Teórico 6 y 7 -> Reemplaza Nota 3 (Manual)</option>
+                    <option value="teorico810">Teórico 8 y 10 -> Reemplaza Nota 4 (Manual)</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="inputContainer">
+                <label for="scoreInput" id="inputLabel">Cantidad de repeticiones / Calificación</label>
+                <input type="text" id="scoreInput" placeholder="Ej: 45" autocomplete="off">
+                <div class="helper-text" id="helperText">Ingresá el valor correspondiente.</div>
+            </div>
+
+            <button class="btn-primary" id="saveScoreBtn">Guardar Calificación en Planilla</button>
+
+            <div class="result-box">
+                <div class="result-label">Calificación Calculada / Nota</div>
                 <div class="grade-display" id="gradeDisplay">-</div>
-                <div class="grade-status" id="gradeStatus">Esperando dato...</div>
-                <div class="grade-detail" id="gradeDetail">Seleccioná género, prueba e ingresá la marca.</div>
+                <div class="grade-status" id="gradeStatus">Seleccione alumno y prueba</div>
             </div>
         </section>
 
-        <!-- Tabla de Tabulación Activa -->
         <section class="card">
             <div class="card-title">
-                <span id="activeTableTitle">Tabulación: Abdominales (Masculino)</span>
+                <span id="activeTableTitle">Tabulación Activa</span>
             </div>
             <div class="table-wrapper">
                 <table>
                     <thead>
                         <tr>
-                            <th id="colMetricHeader">Cantidades</th>
+                            <th id="colMetricHeader">Parámetro / Rango</th>
                             <th>Nota</th>
                         </tr>
                     </thead>
                     <tbody id="activeTableBody">
-                        <!-- Filas generadas dinámicamente -->
+                        <tr><td colspan="2">Seleccione una prueba con baremo</td></tr>
                     </tbody>
                 </table>
+            </div>
+
+            <div style="margin-top: 1.5rem; background: var(--bg-primary); padding: 1rem; border-radius: 12px; border: 1px solid var(--border);">
+                <h4 style="font-size: 0.95rem; color: var(--accent); margin-bottom: 0.5rem;">Resumen de Notas Actuales del Alumno</h4>
+                <div id="studentSummaryNotes" style="font-size: 0.85rem; color: var(--text-secondary); display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                    <div>Nota 1: <strong>-</strong></div>
+                    <div>Nota 2: <strong>-</strong></div>
+                    <div>Nota 1 Período: <strong>-</strong></div>
+                    <div>Nota 3: <strong>-</strong></div>
+                    <div>Nota 4: <strong>-</strong></div>
+                    <div>Nota 2 Período: <strong>-</strong></div>
+                    <div style="grid-column: span 2; color: var(--accent); font-size: 1rem; margin-top: 0.25rem;">Nota Final: <strong>-</strong></div>
+                </div>
             </div>
         </section>
     </main>
 
-    <!-- Modal con todos los baremos -->
+    <!-- VISTA 2: SIMULADOR DE HOJA DE CÁLCULO -->
+    <section class="view-section full-width" id="sheetView">
+        <div class="card">
+            <div class="card-title" style="justify-content: space-between;">
+                <span>Simulador de Google Sheet - Pestaña activa</span>
+                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                    <label style="margin:0; font-size: 0.85rem;">Seleccionar Aula:</label>
+                    <select id="sheetAulaSelect" style="width: 120px; padding: 0.4rem; font-size: 0.9rem;">
+                        <!-- Generado dinámicamente -->
+                    </select>
+                </div>
+            </div>
+
+            <div class="sheet-container">
+                <div class="sheet-toolbar">
+                    <span id="sheetTitleIndicator">Pestaña: 101</span>
+                    <span style="font-size: 0.8rem; color: #666;">Fórmulas y cálculos automáticos sincronizados</span>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table class="sheet-table" id="simulatedSheetTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Legajo</th>
+                                <th>Apellido</th>
+                                <th>Nombre</th>
+                                <th>Género</th>
+                                <th>Estado</th>
+                                <th>Abs (Marca)</th>
+                                <th>Abs (Nota)</th>
+                                <th>Flex (Marca)</th>
+                                <th>Flex (Nota)</th>
+                                <th>1125m (Marca)</th>
+                                <th>1125m (Nota)</th>
+                                <th>Circ (Marca)</th>
+                                <th>Circ (Nota)</th>
+                                <th>Teórico 1,2,3 (Nota 1)</th>
+                                <th>Teórico 4,5 (Reemplaza Nota 2)</th>
+                                <th>Nota 2 (Calc)</th>
+                                <th>Nota 1 Período</th>
+                                <th>Obstáculos (Nota 3)</th>
+                                <th>Teórico 6,7 (Reemplaza Nota 3)</th>
+                                <th>Teórico 8,10 (Reemplaza Nota 4)</th>
+                                <th>Nota 2 Período</th>
+                                <th>Nota Final</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sheetTableBody">
+                            <!-- Filas dinámicas -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Baremos -->
     <div class="modal-backdrop" id="baremosModal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Tablas Oficiales - Educación Física EFSA</h2>
                 <button class="close-btn" id="closeModalBtn">&times;</button>
             </div>
-            <div class="modal-body" id="allTablesContainer">
-                <!-- Se llena automáticamente -->
-            </div>
+            <div class="modal-body" id="allTablesContainer"></div>
         </div>
     </div>
 
     <script>
-        // Baremos oficiales exactamente según las tablas provistas
+        // Baremos oficiales
         const BAREMOS = {
             abdominales: {
-                nombre: "Abdominales",
-                tipo: "reps",
+                nombre: "Abdominales", tipo: "reps",
                 M: [
                     { min: 61, max: Infinity, nota: 10, texto: "61 o más" },
                     { min: 56, max: 60, nota: 9, texto: "56 - 60" },
@@ -465,8 +648,7 @@
                 ]
             },
             flexiones: {
-                nombre: "Flexoextensiones de brazos",
-                tipo: "reps",
+                nombre: "Flexoextensiones de brazos", tipo: "reps",
                 M: [
                     { min: 60, max: Infinity, nota: 10, texto: "60 o más" },
                     { min: 55, max: 59, nota: 9, texto: "55 - 59" },
@@ -495,8 +677,7 @@
                 ]
             },
             "1125mts": {
-                nombre: "1125 mts.",
-                tipo: "time",
+                nombre: "1125 mts.", tipo: "time",
                 M: [
                     { min: 0,   max: 220, nota: 10, texto: "Hasta 3:40" },
                     { min: 221, max: 235, nota: 9,  texto: "3:41 - 3:55" },
@@ -525,8 +706,7 @@
                 ]
             },
             circuito: {
-                nombre: "Circuito",
-                tipo: "time",
+                nombre: "Circuito", tipo: "time",
                 M: [
                     { min: 0,  max: 50, nota: 10, texto: "Hasta 0:50" },
                     { min: 51, max: 55, nota: 9,  texto: "0:51 - 0:55" },
@@ -556,263 +736,376 @@
             }
         };
 
-        // Estado de la aplicación
-        let currentGender = 'M';
-        let currentTest = 'abdominales';
+        // Base de datos simulada en memoria para las 20 aulas (101-110 y 201-210)
+        let dbAulas = {};
 
-        // Elementos DOM
-        const genderBtns = document.querySelectorAll('.gender-btn');
+        function generarBDD Ficticia() {
+            const aulasNums = [];
+            for(let i=101; i<=110; i++) aulasNums.push(i);
+            for(let i=201; i<=210; i++) aulasNums.push(i);
+
+            aulasNums.forEach(aula => {
+                dbAulas[aula] = [
+                    { legajo: `${aula}01`, apellido: "Gómez", nombre: "Carlos", genero: "M", estado: "ALTA", absMarca: "", absNota: "", flexMarca: "", flexNota: "", t1125Marca: "", t1125Nota: "", circMarca: "", circNota: "", teorico123: "", teorico45: "", pistaObst: "", teorico67: "", teorico810: "" },
+                    { legajo: `${aula}02`, apellido: "Pérez", nombre: "Lucía", genero: "F", estado: "ALTA", absMarca: "", absNota: "", flexMarca: "", flexNota: "", t1125Marca: "", t1125Nota: "", circMarca: "", circNota: "", teorico123: "", teorico45: "", pistaObst: "", teorico67: "", teorico810: "" },
+                    { legajo: `${aula}03`, apellido: "Rodríguez", nombre: "Mateo", genero: "M", estado: "BAJA", absMarca: "", absNota: "", flexMarca: "", flexNota: "", t1125Marca: "", t1125Nota: "", circMarca: "", circNota: "", teorico123: "", teorico45: "", pistaObst: "", teorico67: "", teorico810: "" }
+                ];
+            });
+        }
+        generarBDD Ficticia();
+
+        // Referencias DOM
+        const aulaSelect = document.getElementById('aulaSelect');
+        const alumnoSelect = document.getElementById('alumnoSelect');
+        const sheetAulaSelect = document.getElementById('sheetAulaSelect');
+        const infoNombreApellido = document.getElementById('infoNombreApellido');
+        const infoLegajo = document.getElementById('infoLegajo');
+        const infoGenero = document.getElementById('infoGenero');
+        const infoEstadoBadge = document.getElementById('infoEstadoBadge');
+        const toggleStatusBtn = document.getElementById('toggleStatusBtn');
         const testSelect = document.getElementById('testSelect');
         const scoreInput = document.getElementById('scoreInput');
         const inputLabel = document.getElementById('inputLabel');
         const helperText = document.getElementById('helperText');
+        const saveScoreBtn = document.getElementById('saveScoreBtn');
         const gradeDisplay = document.getElementById('gradeDisplay');
         const gradeStatus = document.getElementById('gradeStatus');
-        const gradeDetail = document.getElementById('gradeDetail');
+        const studentSummaryNotes = document.getElementById('studentSummaryNotes');
         const activeTableTitle = document.getElementById('activeTableTitle');
         const colMetricHeader = document.getElementById('colMetricHeader');
         const activeTableBody = document.getElementById('activeTableBody');
+        const sheetTableBody = document.getElementById('sheetTableBody');
+        const sheetTitleIndicator = document.getElementById('sheetTitleIndicator');
 
-        // Modal
-        const modal = document.getElementById('baremosModal');
-        const openModalBtn = document.getElementById('openModalBtn');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-        const allTablesContainer = document.getElementById('allTablesContainer');
+        // Pestañas Navegación
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.target).classList.add('active');
+                if(btn.dataset.target === 'sheetView') renderSimulatedSheet();
+            });
+        });
 
-        // Convertir texto de tiempo ("3:45" o "225") a segundos totales
+        // Inicializar selectores de aula
+        function initAulas() {
+            const aulas = Object.keys(dbAulas);
+            aulaSelect.innerHTML = '';
+            sheetAulaSelect.innerHTML = '';
+            aulas.forEach(a => {
+                aulaSelect.add(new Option(`Aula ${a}`, a));
+                sheetAulaSelect.add(new Option(`Aula ${a}`, a));
+            });
+            updateAlumnosList();
+        }
+
+        function updateAlumnosList() {
+            const aula = aulaSelect.value;
+            const alumnos = dbAulas[aula] || [];
+            alumnoSelect.innerHTML = '';
+            alumnos.forEach((al, index) => {
+                const label = `${al.apellido}, ${al.name || al.nombre} (${al.legajo}) ${al.estado === 'BAJA' ? '[BAJA]' : ''}`;
+                const opt = new Option(label, index);
+                alumnoSelect.add(opt);
+            });
+            loadSelectedAlumno();
+        }
+
+        function getActiveAlumno() {
+            const aula = aulaSelect.value;
+            const index = alumnoSelect.value;
+            if(index === "" || !dbAulas[aula]) return null;
+            return dbAulas[aula][index];
+        }
+
+        function loadSelectedAlumno() {
+            const al = getActiveAlumno();
+            if(!al) return;
+            infoNombreApellido.textContent = `${al.apellido}, ${al.nombre}`;
+            infoLegajo.textContent = al.legajo;
+            infoGenero.textContent = al.genero === 'M' ? 'Masculino' : 'Femenino';
+            
+            if(al.estado === 'ALTA') {
+                infoEstadoBadge.textContent = 'ALTA';
+                infoEstadoBadge.className = 'badge-status badge-alta';
+                toggleStatusBtn.textContent = 'Dar de Baja';
+                toggleStatusBtn.className = 'btn-danger';
+            } else {
+                infoEstadoBadge.textContent = 'BAJA';
+                infoEstadoBadge.className = 'badge-status badge-baja';
+                toggleStatusBtn.textContent = 'Reactivar (Dar de Alta)';
+                toggleStatusBtn.className = 'btn-success';
+            }
+            updateCalculationsAndUI();
+        }
+
+        // Toggle Estado Alta/Baja
+        toggleStatusBtn.addEventListener('click', () => {
+            const al = getActiveAlumno();
+            if(!al) return;
+            al.estado = al.estado === 'ALTA' ? 'BAJA' : 'ALTA';
+            updateAlumnosList();
+        });
+
+        // Fórmulas y Cálculos Automáticos
+        function calcularNotasAlumno(al) {
+            const n1 = al.teorico123 !== "" ? parseFloat(al.teorico123) : null;
+            
+            // Nota 2 base (promedio abs, flex, 1125 si tienen nota)
+            const notasFisicas = [al.absNota, al.flexNota, al.t1125Nota].filter(n => n !== "");
+            let nota2Base = null;
+            if(notasFisicas.length > 0) {
+                nota2Base = notasFisicas.reduce((a,b)=>a+b, 0) / notasFisicas.length;
+            }
+            // Reemplazo Nota 2 por Teórico 4 y 5
+            let nota2 = al.teorico45 !== "" ? parseFloat(al.teorico45) : nota2Base;
+
+            // Nota 1 Periodo
+            let nota1Periodo = null;
+            if(n1 !== null && nota2 !== null) nota1Periodo = (n1 + nota2) / 2;
+            else if(n1 !== null) nota1Periodo = n1;
+            else if(nota2 !== null) nota1Periodo = nota2;
+
+            // Nota 3 (Obstáculos o Teórico 6,7)
+            let nota3 = al.teorico67 !== "" ? parseFloat(al.teorico67) : (al.pistaObst !== "" ? parseFloat(al.pistaObst) : null);
+
+            // Nota 4 (Circuito o Teórico 8,10)
+            let nota4 = al.teorico810 !== "" ? parseFloat(al.teorico810) : (al.circNota !== "" ? parseFloat(al.circNota) : null);
+
+            // Nota 2 Periodo
+            let nota2Periodo = null;
+            if(nota3 !== null && nota4 !== null) nota2Periodo = (nota3 + nota4) / 2;
+            else if(nota3 !== null) nota2Periodo = nota3;
+            else if(nota4 !== null) nota2Periodo = nota4;
+
+            // Nota Final
+            let notaFinal = null;
+            if(nota1Periodo !== null && nota2Periodo !== null) notaFinal = (nota1Periodo + nota2Periodo) / 2;
+            else if(nota1Periodo !== null) notaFinal = nota1Periodo;
+            else if(nota2Periodo !== null) notaFinal = nota2Periodo;
+
+            return {
+                n1: n1 !== null ? n1.toFixed(1) : "-",
+                n2: nota2 !== null ? nota2.toFixed(1) : "-",
+                n1Per: nota1Periodo !== null ? nota1Periodo.toFixed(1) : "-",
+                n3: nota3 !== null ? nota3.toFixed(1) : "-",
+                n4: nota4 !== null ? nota4.toFixed(1) : "-",
+                n2Per: nota2Periodo !== null ? nota2Periodo.toFixed(1) : "-",
+                nFinal: notaFinal !== null ? notaFinal.toFixed(1) : "-"
+            };
+        }
+
+        function updateCalculationsAndUI() {
+            const al = getActiveAlumno();
+            if(!al) return;
+            const res = calcularNotasAlumno(al);
+
+            studentSummaryNotes.innerHTML = `
+                <div>Nota 1: <strong>${res.n1}</strong></div>
+                <div>Nota 2: <strong>${res.n2}</strong></div>
+                <div>Nota 1 Período: <strong>${res.n1Per}</strong></div>
+                <div>Nota 3: <strong>${res.n3}</strong></div>
+                <div>Nota 4: <strong>${res.n4}</strong></div>
+                <div>Nota 2 Período: <strong>${res.n2Per}</strong></div>
+                <div style="grid-column: span 2; color: var(--accent); font-size: 1rem; margin-top: 0.25rem;">Nota Final: <strong>${res.nFinal}</strong></div>
+            `;
+        }
+
+        // Interfaz de evaluación según la prueba seleccionada
+        testSelect.addEventListener('change', () => {
+            const t = testSelect.value;
+            scoreInput.value = '';
+            if(t === 'abdominales' || t === 'flexiones') {
+                inputLabel.textContent = 'Cantidad de repeticiones';
+                helperText.textContent = 'Ingresá el número entero de repeticiones.';
+            } else if(t === '1125mts' || t === 'circuito') {
+                inputLabel.textContent = 'Tiempo registrado (segundos o mm:ss)';
+                helperText.textContent = 'Ej: 4:15 o 255 segundos.';
+            } else {
+                inputLabel.textContent = 'Calificación numérica (0 a 10)';
+                helperText.textContent = 'Carga directa manual sin baremo.';
+            }
+            renderActiveTableForTest();
+        });
+
         function parseTimeToSeconds(val) {
             const clean = val.trim();
-            if (!clean) return null;
-
-            if (clean.includes(':')) {
+            if(!clean) return null;
+            if(clean.includes(':')) {
                 const parts = clean.split(':');
-                if (parts.length !== 2) return null;
-                const mins = parseInt(parts[0], 10);
-                const secs = parseFloat(parts[1].replace(',', '.'));
-                if (isNaN(mins) || isNaN(secs) || mins < 0 || secs < 0 || secs >= 60) return null;
-                return (mins * 60) + secs;
-            } else {
-                const num = parseFloat(clean.replace(',', '.'));
-                if (isNaN(num) || num < 0) return null;
-                return num;
+                if(parts.length !== 2) return null;
+                return (parseInt(parts[0],10)*60) + parseFloat(parts[1].replace(',','.'));
             }
+            return parseFloat(clean.replace(',','.'));
         }
 
-        function formatSeconds(totalSec) {
-            const m = Math.floor(totalSec / 60);
-            const s = Math.round(totalSec % 60);
-            return `${m}:${s < 10 ? '0' : ''}${s}`;
-        }
-
-        // Actualizar textos de ayuda según prueba
-        function updateInputUI() {
-            const testObj = BAREMOS[currentTest];
-            if (testObj.tipo === 'reps') {
-                inputLabel.textContent = 'Cantidad de repeticiones';
-                scoreInput.placeholder = currentTest === 'abdominales' ? 'Ej: 45' : 'Ej: 38';
-                helperText.textContent = 'Ingresá la cantidad exacta de repeticiones realizadas.';
-                colMetricHeader.textContent = 'Cantidades';
-            } else {
-                inputLabel.textContent = 'Tiempo registrado (mm:ss o segundos)';
-                scoreInput.placeholder = currentTest === '1125mts' ? 'Ej: 4:15' : 'Ej: 1:02';
-                helperText.textContent = 'Podés escribir minutos:segundos (ej: 4:15) o segundos totales (ej: 255).';
-                colMetricHeader.textContent = 'Tiempo';
-            }
-        }
-
-        // Renderizar la tabla lateral activa
-        function renderActiveTable(matchedNota = null) {
-            const testObj = BAREMOS[currentTest];
-            const rows = testObj[currentGender];
-            const genderText = currentGender === 'M' ? 'Masculino' : 'Femenino';
-            activeTableTitle.textContent = `Tabulación: ${testObj.nombre} (${genderText})`;
-
-            activeTableBody.innerHTML = '';
-            rows.forEach(row => {
-                const tr = document.createElement('tr');
-                if (matchedNota !== null && row.nota === matchedNota) {
-                    tr.className = row.nota === 0 ? 'highlight-row-zero' : 'highlight-row';
-                }
-                tr.innerHTML = `
-                    <td>${row.texto}</td>
-                    <td><strong>${row.nota}</strong></td>
-                `;
-                activeTableBody.appendChild(tr);
-            });
-        }
-
-        // Evaluar el dato ingresado
-        function evaluateScore() {
-            const rawVal = scoreInput.value.trim();
-            const testObj = BAREMOS[currentTest];
-            const rows = testObj[currentGender];
-
-            if (!rawVal) {
+        // Evaluar en tiempo real la nota al escribir
+        scoreInput.addEventListener('input', () => {
+            const val = scoreInput.value.trim();
+            const t = testSelect.value;
+            const al = getActiveAlumno();
+            if(!al || !val) {
                 gradeDisplay.textContent = '-';
-                gradeDisplay.style.color = 'var(--text-secondary)';
                 gradeStatus.textContent = 'Esperando dato...';
-                gradeStatus.style.background = 'rgba(148, 163, 184, 0.15)';
-                gradeStatus.style.color = 'var(--text-secondary)';
-                gradeDetail.textContent = 'Ingresá una marca para obtener la calificación.';
-                renderActiveTable(null);
                 return;
             }
 
-            let numericValue = null;
-
-            if (testObj.tipo === 'reps') {
-                if (!/^\d+$/.test(rawVal)) {
-                    showInvalid('Ingresá solo números enteros para repeticiones.');
-                    return;
+            if(t.startsWith('teorico') || t === 'pistaObstaculos') {
+                let num = parseFloat(val);
+                if(isNaN(num) || num < 0 || num > 10) {
+                    gradeDisplay.textContent = '!';
+                    gradeStatus.textContent = 'Nota entre 0 y 10';
+                } else {
+                    gradeDisplay.textContent = num;
+                    gradeStatus.textContent = 'Calificación Manual';
                 }
-                numericValue = parseInt(rawVal, 10);
-            } else {
-                numericValue = parseTimeToSeconds(rawVal);
-                if (numericValue === null) {
-                    showInvalid('Formato de tiempo inválido. Usá mm:ss (ej: 4:10) o segundos.');
-                    return;
-                }
+                return;
             }
 
-            // Buscar en el baremo correspondiente
-            let foundRow = null;
-            for (const r of rows) {
-                if (numericValue >= r.min && numericValue <= r.max) {
-                    foundRow = r;
-                    break;
-                }
+            // Pruebas con baremo
+            const testKey = t === 'circuito' ? 'circuito' : t;
+            const testObj = BAREMOS[testKey];
+            let numericVal = testObj.tipo === 'reps' ? parseInt(val, 10) : parseTimeToSeconds(val);
+
+            if(isNaN(numericVal) || numericVal === null) {
+                gradeDisplay.textContent = '!';
+                gradeStatus.textContent = 'Dato inválido';
+                return;
             }
 
-            // Respaldo de seguridad
-            if (!foundRow) {
-                foundRow = rows[rows.length - 1];
-            }
-
-            const nota = foundRow.nota;
-            gradeDisplay.textContent = nota;
-
-            // Estilos visuales según calificación
-            if (nota === 0) {
-                gradeDisplay.style.color = 'var(--danger)';
-                gradeStatus.textContent = 'Sin puntaje (0)';
-                gradeStatus.style.background = 'rgba(239, 68, 68, 0.18)';
-                gradeStatus.style.color = 'var(--danger)';
-            } else if (nota < 4) {
-                gradeDisplay.style.color = 'var(--warning)';
-                gradeStatus.textContent = 'Desaprobado';
-                gradeStatus.style.background = 'rgba(245, 158, 11, 0.18)';
-                gradeStatus.style.color = 'var(--warning)';
-            } else if (nota < 7) {
-                gradeDisplay.style.color = 'var(--accent)';
-                gradeStatus.textContent = 'Aprobado';
-                gradeStatus.style.background = 'rgba(56, 189, 248, 0.18)';
-                gradeStatus.style.color = 'var(--accent)';
-            } else {
-                gradeDisplay.style.color = 'var(--success)';
-                gradeStatus.textContent = nota === 10 ? 'Excelente' : 'Muy Bueno';
-                gradeStatus.style.background = 'rgba(34, 197, 94, 0.18)';
-                gradeStatus.style.color = 'var(--success)';
-            }
-
-            const marcaTexto = testObj.tipo === 'reps'
-                ? `${numericValue} repeticiones`
-                : `${formatSeconds(numericValue)} (${numericValue} seg)`;
-
-            gradeDetail.textContent = `Marca evaluada: ${marcaTexto} • Rango: ${foundRow.texto}`;
-            renderActiveTable(nota);
-        }
-
-        function showInvalid(msg) {
-            gradeDisplay.textContent = '!';
-            gradeDisplay.style.color = 'var(--warning)';
-            gradeStatus.textContent = 'Dato no válido';
-            gradeStatus.style.background = 'rgba(245, 158, 11, 0.18)';
-            gradeStatus.style.color = 'var(--warning)';
-            gradeDetail.textContent = msg;
-            renderActiveTable(null);
-        }
-
-        // Generar todas las tablas en el modal
-        function renderAllBaremosModal() {
-            allTablesContainer.innerHTML = '';
-            Object.keys(BAREMOS).forEach(key => {
-                const test = BAREMOS[key];
-                const card = document.createElement('div');
-                card.className = 'mini-table-card';
-
-                let rowsHtml = '';
-                for (let i = 0; i < test.M.length; i++) {
-                    rowsHtml += `
-                        <tr>
-                            <td>${test.M[i].texto}</td>
-                            <td><strong>${test.M[i].nota}</strong></td>
-                            <td>${test.F[i].texto}</td>
-                        </tr>
-                    `;
-                }
-
-                card.innerHTML = `
-                    <h3>${test.nombre}</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Masculino</th>
-                                <th>Nota</th>
-                                <th>Femenino</th>
-                            </tr>
-                        </thead>
-                        <tbody>${rowsHtml}</tbody>
-                    </table>
-                `;
-                allTablesContainer.appendChild(card);
-            });
-        }
-
-        // Eventos
-        genderBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                genderBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentGender = btn.dataset.gender;
-                evaluateScore();
-            });
+            const rows = testObj[al.genero];
+            let found = rows.find(r => numericVal >= r.min && numericVal <= r.max) || rows[rows.length-1];
+            gradeDisplay.textContent = found.nota;
+            gradeStatus.textContent = `Rango: ${found.texto}`;
         });
 
-        testSelect.addEventListener('change', (e) => {
-            currentTest = e.target.value;
+        // Guardar Calificación
+        saveScoreBtn.addEventListener('click', () => {
+            const al = getActiveAlumno();
+            const val = scoreInput.value.trim();
+            const t = testSelect.value;
+            if(!al || !val) {
+                alert('Seleccioná un alumno e ingresá una marca o nota.');
+                return;
+            }
+
+            if(t === 'abdominales') {
+                al.absMarca = val;
+                al.absNota = calcularNotaBaremo('abdominales', al.genero, val);
+            } else if(t === 'flexiones') {
+                al.flexMarca = val;
+                al.flexNota = calcularNotaBaremo('flexiones', al.genero, val);
+            } else if(t === '1125mts') {
+                al.t1125Marca = val;
+                al.t1125Nota = calcularNotaBaremo('1125mts', al.genero, val);
+            } else if(t === 'circuito') {
+                al.circMarca = val;
+                al.circNota = calcularNotaBaremo('circuito', al.genero, val);
+            } else if(t === 'teorico123') { al.teorico123 = val; }
+            else if(t === 'teorico45') { al.teorico45 = val; }
+            else if(t === 'pistaObstaculos') { al.pistaObst = val; }
+            else if(t === 'teorico67') { al.teorico67 = val; }
+            else if(t === 'teorico810') { al.teorico810 = val; }
+
             scoreInput.value = '';
-            updateInputUI();
-            evaluateScore();
+            gradeDisplay.textContent = '-';
+            gradeStatus.textContent = '¡Guardado correctamente!';
+            updateCalculationsAndUI();
+            alert('Calificación guardada y sincronizada con la hoja de cálculo.');
         });
 
-        scoreInput.addEventListener('input', evaluateScore);
+        function calcularNotaBaremo(testKey, genero, val) {
+            const testObj = BAREMOS[testKey];
+            let num = testObj.tipo === 'reps' ? parseInt(val, 10) : parseTimeToSeconds(val);
+            const rows = testObj[genero];
+            let found = rows.find(r => num >= r.min && num <= r.max) || rows[rows.length-1];
+            return found.nota;
+        }
 
-        openModalBtn.addEventListener('click', () => {
-            renderAllBaremosModal();
+        // Renderizar tabla simulada de Google Sheets
+        function renderSimulatedSheet() {
+            const aula = sheetAulaSelect.value;
+            sheetTitleIndicator.textContent = `Pestaña: Aula ${aula}`;
+            const alumnos = dbAulas[aula] || [];
+            sheetTableBody.innerHTML = '';
+
+            alumnos.forEach((al, idx) => {
+                const res = calcularNotasAlumno(al);
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${idx + 1}</td>
+                    <td><strong>${al.legajo}</strong></td>
+                    <td>${al.apellido}</td>
+                    <td>${al.nombre}</td>
+                    <td>${al.genero}</td>
+                    <td><span style="color:${al.estado==='ALTA'?'var(--success)':'var(--danger)'}; font-weight:bold;">${al.estado}</span></td>
+                    <td>${al.absMarca || ''}</td>
+                    <td>${al.absNota !== "" ? al.absNota : ''}</td>
+                    <td>${al.flexMarca || ''}</td>
+                    <td>${al.flexNota !== "" ? al.flexNota : ''}</td>
+                    <td>${al.t1125Marca || ''}</td>
+                    <td>${al.t1125Nota !== "" ? al.t1125Nota : ''}</td>
+                    <td>${al.circMarca || ''}</td>
+                    <td>${al.circNota !== "" ? al.circNota : ''}</td>
+                    <td>${al.teorico123}</td>
+                    <td>${al.teorico45}</td>
+                    <td style="background:#e8f4fd; font-weight:bold;">${res.n2}</td>
+                    <td style="background:#e8f4fd; font-weight:bold;">${res.n1Per}</td>
+                    <td>${al.pistaObst}</td>
+                    <td>${al.teorico67}</td>
+                    <td>${al.teorico810}</td>
+                    <td style="background:#e8f4fd; font-weight:bold;">${res.n2Per}</td>
+                    <td style="background:#d4edda; font-weight:bold; color:#155724;">${res.nFinal}</td>
+                `;
+                sheetTableBody.appendChild(tr);
+            });
+        }
+
+        function renderActiveTableForTest() {
+            const t = testSelect.value;
+            if(t.startsWith('teorico') || t === 'pistaObstaculos') {
+                activeTableTitle.textContent = "Evaluación Manual (Sin Baremo)";
+                activeTableBody.innerHTML = `<tr><td colspan="2">Carga numérica directa de 0 a 10.</td></tr>`;
+                return;
+            }
+            const testKey = t === 'circuito' ? 'circuito' : t;
+            const testObj = BAREMOS[testKey];
+            activeTableTitle.textContent = `Tabulación: ${testObj.nombre}`;
+            colMetricHeader.textContent = testObj.tipo === 'reps' ? 'Cantidades' : 'Tiempo';
+            
+            activeTableBody.innerHTML = '';
+            testObj.M.forEach(r => {
+                activeTableBody.innerHTML += `<tr><td>${r.texto}</td><td><strong>${r.nota}</strong></td></tr>`;
+            });
+        }
+
+        // Eventos selectores principales
+        aulaSelect.addEventListener('change', updateAlumnosList);
+        alumnoSelect.addEventListener('change', loadSelectedAlumno);
+        sheetAulaSelect.addEventListener('change', renderSimulatedSheet);
+
+        // Modal Baremos
+        const modal = document.getElementById('baremosModal');
+        document.getElementById('openModalBtn').onclick = () => {
+            const container = document.getElementById('allTablesContainer');
+            container.innerHTML = '';
+            Object.keys(BAREMOS).forEach(k => {
+                const b = BAREMOS[k];
+                let rows = '';
+                for(let i=0; i<b.M.length; i++) {
+                    rows += `<tr><td>${b.M[i].texto}</td><td><strong>${b.M[i].nota}</strong></td><td>${b.F[i].texto}</td></tr>`;
+                }
+                container.innerHTML += `<div class="mini-table-card"><h3>${b.nombre}</h3><table><thead><tr><th>Masculino</th><th>Nota</th><th>Femenino</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+            });
             modal.classList.add('open');
-        });
+        };
+        document.getElementById('closeModalBtn').onclick = () => modal.classList.remove('open');
+        modal.onclick = (e) => { if(e.target === modal) modal.classList.remove('open'); };
 
-        closeModalBtn.addEventListener('click', () => {
-            modal.classList.remove('open');
-        });
-
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) modal.classList.remove('open');
-        });
-
-        // Inicializar
-        updateInputUI();
-        renderActiveTable();
-    </script>
-
-    <!-- Registro del Service Worker para habilitar instalación en dispositivos móviles -->
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .catch(err => console.log('Error al registrar SW:', err));
-        });
-      }
+        // Inicialización
+        initAulas();
+        renderActiveTableForTest();
     </script>
 </body>
 </html>
