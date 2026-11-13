@@ -1,818 +1,168 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Educación Física EFSA</title>
-    
-    <!-- Configuración PWA para instalar en celulares -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#0f172a">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="EFSA">
-    <link rel="apple-touch-icon" href="icon.svg">
-
-    <style>
-        :root {
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --bg-card: #1e293b;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --accent: #38bdf8;
-            --accent-hover: #0284c7;
-            --border: #334155;
-            --success: #22c55e;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 1.5rem 1rem;
-        }
-
-        header {
-            width: 100%;
-            max-width: 960px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .brand-badge {
-            background: linear-gradient(135deg, #0284c7, #38bdf8);
-            color: #0f172a;
-            font-weight: 900;
-            padding: 0.45rem 0.75rem;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            letter-spacing: 0.05em;
-        }
-
-        h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: var(--accent);
-            border: 1px solid var(--accent);
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.9rem;
-        }
-
-        .btn-outline:hover {
-            background: rgba(56, 189, 248, 0.12);
-        }
-
-        .main-grid {
-            width: 100%;
-            max-width: 960px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-        }
-
-        @media (max-width: 768px) {
-            .main-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-        }
-
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 1.25rem;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .form-group {
-            margin-bottom: 1.25rem;
-        }
-
-        label {
-            display: block;
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            margin-bottom: 0.5rem;
-        }
-
-        .gender-selector {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.75rem;
-        }
-
-        .gender-btn {
-            background: var(--bg-primary);
-            border: 2px solid var(--border);
-            color: var(--text-secondary);
-            padding: 0.75rem;
-            border-radius: 10px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .gender-btn.active {
-            border-color: var(--accent);
-            background: rgba(56, 189, 248, 0.12);
-            color: var(--text-primary);
-        }
-
-        select, input[type="text"] {
-            width: 100%;
-            background: var(--bg-primary);
-            border: 2px solid var(--border);
-            color: var(--text-primary);
-            padding: 0.8rem 1rem;
-            border-radius: 10px;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        select:focus, input[type="text"]:focus {
-            border-color: var(--accent);
-        }
-
-        .helper-text {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            margin-top: 0.4rem;
-        }
-
-        /* Panel de Resultado */
-        .result-box {
-            margin-top: 1.5rem;
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 1.5rem;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .result-label {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--text-secondary);
-            margin-bottom: 0.25rem;
-        }
-
-        .grade-display {
-            font-size: 4.25rem;
-            font-weight: 800;
-            line-height: 1.1;
-            margin: 0.25rem 0;
-            color: var(--text-secondary);
-        }
-
-        .grade-status {
-            display: inline-block;
-            padding: 0.3rem 0.85rem;
-            border-radius: 999px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            margin-top: 0.35rem;
-            background: rgba(148, 163, 184, 0.15);
-            color: var(--text-secondary);
-        }
-
-        .grade-detail {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-top: 0.75rem;
-        }
-
-        /* Tabla Lateral */
-        .table-wrapper {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9rem;
-        }
-
-        th, td {
-            padding: 0.6rem 0.75rem;
-            text-align: center;
-            border-bottom: 1px solid var(--border);
-        }
-
-        th {
-            background: var(--bg-primary);
-            color: var(--text-secondary);
-            font-weight: 600;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        tr.highlight-row {
-            background: rgba(56, 189, 248, 0.18);
-            font-weight: 700;
-            color: var(--accent);
-        }
-
-        tr.highlight-row-zero {
-            background: rgba(239, 68, 68, 0.18);
-            font-weight: 700;
-            color: var(--danger);
-        }
-
-        /* Modal Baremos Completos */
-        .modal-backdrop {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.75);
-            z-index: 50;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-        }
-
-        .modal-backdrop.open {
-            display: flex;
-        }
-
-        .modal-content {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            max-width: 850px;
-            width: 100%;
-            max-height: 88vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .modal-header {
-            padding: 1.25rem 1.5rem;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-body {
-            padding: 1.5rem;
-            overflow-y: auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.25rem;
-        }
-
-        @media (max-width: 700px) {
-            .modal-body {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .mini-table-card {
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1rem;
-        }
-
-        .mini-table-card h3 {
-            font-size: 0.95rem;
-            color: var(--accent);
-            margin-bottom: 0.75rem;
-            text-align: center;
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 1.5rem;
-            cursor: pointer;
-            line-height: 1;
-        }
-
-        .close-btn:hover {
-            color: var(--text-primary);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EFSA - Evaluación Física y Teórica</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f6f9;
+    }
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .selector-aula {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    select, button {
+      padding: 10px;
+      font-size: 16px;
+      margin-right: 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+    input[type="text"] {
+      width: 60px;
+      padding: 5px;
+    }
+    .loading {
+      text-align: center;
+      font-style: italic;
+      color: #666;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
 
-    <header>
-        <div class="brand">
-            <span class="brand-badge">EFSA</span>
-            <h1>Educación Física EFSA</h1>
-        </div>
-        <button class="btn-outline" id="openModalBtn">Ver Baremos Completos</button>
-    </header>
-
-    <main class="main-grid">
-        <!-- Panel de Ingreso y Resultado -->
-        <section class="card">
-            <div class="card-title">Evaluación Individual</div>
-
-            <div class="form-group">
-                <label>Género</label>
-                <div class="gender-selector">
-                    <button type="button" class="gender-btn active" data-gender="M">Masculino</button>
-                    <button type="button" class="gender-btn" data-gender="F">Femenino</button>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="testSelect">Prueba Física</label>
-                <select id="testSelect">
-                    <option value="abdominales">Abdominales</option>
-                    <option value="flexiones">Flexoextensiones de brazos</option>
-                    <option value="1125mts">1125 mts.</option>
-                    <option value="circuito">Circuito</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="scoreInput" id="inputLabel">Cantidad de repeticiones</label>
-                <input type="text" id="scoreInput" placeholder="Ej: 45" autocomplete="off">
-                <div class="helper-text" id="helperText">Ingresá un número entero de repeticiones.</div>
-            </div>
-
-            <div class="result-box" id="resultBox">
-                <div class="result-label">Calificación Obtenida</div>
-                <div class="grade-display" id="gradeDisplay">-</div>
-                <div class="grade-status" id="gradeStatus">Esperando dato...</div>
-                <div class="grade-detail" id="gradeDetail">Seleccioná género, prueba e ingresá la marca.</div>
-            </div>
-        </section>
-
-        <!-- Tabla de Tabulación Activa -->
-        <section class="card">
-            <div class="card-title">
-                <span id="activeTableTitle">Tabulación: Abdominales (Masculino)</span>
-            </div>
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th id="colMetricHeader">Cantidades</th>
-                            <th>Nota</th>
-                        </tr>
-                    </thead>
-                    <tbody id="activeTableBody">
-                        <!-- Filas generadas dinámicamente -->
-                    </tbody>
-                </table>
-            </div>
-        </section>
-    </main>
-
-    <!-- Modal con todos los baremos -->
-    <div class="modal-backdrop" id="baremosModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Tablas Oficiales - Educación Física EFSA</h2>
-                <button class="close-btn" id="closeModalBtn">&times;</button>
-            </div>
-            <div class="modal-body" id="allTablesContainer">
-                <!-- Se llena automáticamente -->
-            </div>
-        </div>
+  <div class="container">
+    <h1>EFSA - Gestión de Educación Física</h1>
+    
+    <div class="selector-aula">
+      <label for="selectAula">Seleccionar Aula: </label>
+      <select id="selectAula">
+        <option value="101">Aula 101</option>
+        <option value="102">Aula 102</option>
+        <option value="103">Aula 103</option>
+      </select>
+      <button onclick="cargarDatosAula()">Cargar Alumnos</button>
     </div>
 
-    <script>
-        // Baremos oficiales exactamente según las tablas provistas
-        const BAREMOS = {
-            abdominales: {
-                nombre: "Abdominales",
-                tipo: "reps",
-                M: [
-                    { min: 61, max: Infinity, nota: 10, texto: "61 o más" },
-                    { min: 56, max: 60, nota: 9, texto: "56 - 60" },
-                    { min: 51, max: 55, nota: 8, texto: "51 - 55" },
-                    { min: 46, max: 50, nota: 7, texto: "46 - 50" },
-                    { min: 41, max: 45, nota: 6, texto: "41 - 45" },
-                    { min: 36, max: 40, nota: 5, texto: "36 - 40" },
-                    { min: 31, max: 35, nota: 4, texto: "31 - 35" },
-                    { min: 26, max: 30, nota: 3, texto: "26 - 30" },
-                    { min: 21, max: 25, nota: 2, texto: "21 - 25" },
-                    { min: 16, max: 20, nota: 1, texto: "16 - 20" },
-                    { min: 0,  max: 15, nota: 0, texto: "Menos de 16" }
-                ],
-                F: [
-                    { min: 53, max: Infinity, nota: 10, texto: "53 o más" },
-                    { min: 48, max: 52, nota: 9, texto: "48 - 52" },
-                    { min: 43, max: 47, nota: 8, texto: "43 - 47" },
-                    { min: 38, max: 42, nota: 7, texto: "38 - 42" },
-                    { min: 33, max: 37, nota: 6, texto: "33 - 37" },
-                    { min: 28, max: 32, nota: 5, texto: "28 - 32" },
-                    { min: 23, max: 27, nota: 4, texto: "23 - 27" },
-                    { min: 18, max: 22, nota: 3, texto: "18 - 22" },
-                    { min: 13, max: 17, nota: 2, texto: "13 - 17" },
-                    { min: 8,  max: 12, nota: 1, texto: "8 - 12" },
-                    { min: 0,  max: 7,  nota: 0, texto: "Menos de 8" }
-                ]
-            },
-            flexiones: {
-                nombre: "Flexoextensiones de brazos",
-                tipo: "reps",
-                M: [
-                    { min: 60, max: Infinity, nota: 10, texto: "60 o más" },
-                    { min: 55, max: 59, nota: 9, texto: "55 - 59" },
-                    { min: 50, max: 54, nota: 8, texto: "50 - 54" },
-                    { min: 43, max: 49, nota: 7, texto: "43 - 49" },
-                    { min: 35, max: 42, nota: 6, texto: "35 - 42" },
-                    { min: 30, max: 34, nota: 5, texto: "30 - 34" },
-                    { min: 25, max: 29, nota: 4, texto: "25 - 29" },
-                    { min: 20, max: 24, nota: 3, texto: "20 - 24" },
-                    { min: 15, max: 19, nota: 2, texto: "15 - 19" },
-                    { min: 10, max: 14, nota: 1, texto: "10 - 14" },
-                    { min: 0,  max: 9,  nota: 0, texto: "Menos de 10" }
-                ],
-                F: [
-                    { min: 50, max: Infinity, nota: 10, texto: "50 o más" },
-                    { min: 45, max: 49, nota: 9, texto: "45 - 49" },
-                    { min: 40, max: 44, nota: 8, texto: "40 - 44" },
-                    { min: 33, max: 39, nota: 7, texto: "33 - 39" },
-                    { min: 25, max: 32, nota: 6, texto: "25 - 32" },
-                    { min: 20, max: 24, nota: 5, texto: "20 - 24" },
-                    { min: 15, max: 19, nota: 4, texto: "15 - 19" },
-                    { min: 10, max: 14, nota: 3, texto: "10 - 14" },
-                    { min: 5,  max: 9,  nota: 2, texto: "5 - 9" },
-                    { min: 2,  max: 4,  nota: 1, texto: "2 - 4" },
-                    { min: 0,  max: 1,  nota: 0, texto: "Menos de 2" }
-                ]
-            },
-            "1125mts": {
-                nombre: "1125 mts.",
-                tipo: "time",
-                M: [
-                    { min: 0,   max: 220, nota: 10, texto: "Hasta 3:40" },
-                    { min: 221, max: 235, nota: 9,  texto: "3:41 - 3:55" },
-                    { min: 236, max: 250, nota: 8,  texto: "3:56 - 4:10" },
-                    { min: 251, max: 265, nota: 7,  texto: "4:11 - 4:25" },
-                    { min: 266, max: 280, nota: 6,  texto: "4:26 - 4:40" },
-                    { min: 281, max: 295, nota: 5,  texto: "4:41 - 4:55" },
-                    { min: 296, max: 310, nota: 4,  texto: "4:56 - 5:10" },
-                    { min: 311, max: 325, nota: 3,  texto: "5:11 - 5:25" },
-                    { min: 326, max: 340, nota: 2,  texto: "5:26 - 5:40" },
-                    { min: 341, max: 355, nota: 1,  texto: "5:41 - 5:55" },
-                    { min: 356, max: Infinity, nota: 0, texto: "Más de 5:55" }
-                ],
-                F: [
-                    { min: 0,   max: 270, nota: 10, texto: "Hasta 4:30" },
-                    { min: 271, max: 285, nota: 9,  texto: "4:31 - 4:45" },
-                    { min: 286, max: 300, nota: 8,  texto: "4:46 - 5:00" },
-                    { min: 301, max: 320, nota: 7,  texto: "5:01 - 5:20" },
-                    { min: 321, max: 340, nota: 6,  texto: "5:21 - 5:40" },
-                    { min: 341, max: 360, nota: 5,  texto: "5:41 - 6:00" },
-                    { min: 361, max: 375, nota: 4,  texto: "6:01 - 6:15" },
-                    { min: 376, max: 390, nota: 3,  texto: "6:16 - 6:30" },
-                    { min: 391, max: 405, nota: 2,  texto: "6:31 - 6:45" },
-                    { min: 406, max: 420, nota: 1,  texto: "6:46 - 7:00" },
-                    { min: 421, max: Infinity, nota: 0, texto: "Más de 7:00" }
-                ]
-            },
-            circuito: {
-                nombre: "Circuito",
-                tipo: "time",
-                M: [
-                    { min: 0,  max: 50, nota: 10, texto: "Hasta 0:50" },
-                    { min: 51, max: 55, nota: 9,  texto: "0:51 - 0:55" },
-                    { min: 56, max: 60, nota: 8,  texto: "0:56 - 1:00" },
-                    { min: 61, max: 65, nota: 7,  texto: "1:01 - 1:05" },
-                    { min: 66, max: 70, nota: 6,  texto: "1:06 - 1:10" },
-                    { min: 71, max: 75, nota: 5,  texto: "1:11 - 1:15" },
-                    { min: 76, max: 80, nota: 4,  texto: "1:16 - 1:20" },
-                    { min: 81, max: 85, nota: 3,  texto: "1:21 - 1:25" },
-                    { min: 86, max: 90, nota: 2,  texto: "1:26 - 1:30" },
-                    { min: 91, max: 95, nota: 1,  texto: "1:31 - 1:35" },
-                    { min: 96, max: Infinity, nota: 0, texto: "Más de 1:35" }
-                ],
-                F: [
-                    { min: 0,   max: 65,  nota: 10, texto: "Hasta 1:05" },
-                    { min: 66,  max: 70,  nota: 9,  texto: "1:06 - 1:10" },
-                    { min: 71,  max: 75,  nota: 8,  texto: "1:11 - 1:15" },
-                    { min: 76,  max: 80,  nota: 7,  texto: "1:16 - 1:20" },
-                    { min: 81,  max: 85,  nota: 6,  texto: "1:21 - 1:25" },
-                    { min: 86,  max: 90,  nota: 5,  texto: "1:26 - 1:30" },
-                    { min: 91,  max: 95,  nota: 4,  texto: "1:31 - 1:35" },
-                    { min: 96,  max: 100, nota: 3,  texto: "1:36 - 1:40" },
-                    { min: 101, max: 105, nota: 2,  texto: "1:41 - 1:45" },
-                    { min: 106, max: 110, nota: 1,  texto: "1:46 - 1:50" },
-                    { min: 111, max: Infinity, nota: 0, texto: "Más de 1:50" }
-                ]
-            }
+    <div id="loading" class="loading" style="display: none;">Cargando alumnos desde Google Sheets...</div>
+
+    <div style="overflow-x: auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Legajo</th>
+            <th>Apellido y Nombre</th>
+            <th>Abdominales (Marca)</th>
+            <th>Flexiones (Marca)</th>
+            <th>1125mts (Marca)</th>
+          </tr>
+        </thead>
+        <tbody id="tabla-cuerpo">
+          <!-- Los alumnos aparecerán acá dinámicamente -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Tu URL oficial de Google Apps Script
+    const API_URL = "https://script.google.com/macros/s/AKfycbzhD-cPETpNZ8QvMTJ5qJr9yh0cv0pgOcUEG-oEVVOr1onNFPsxDz9yBFAH_8aigLJWAA/exec";
+
+    async function cargarDatosAula() {
+      const aula = document.getElementById("selectAula").value;
+      const loadingDiv = document.getElementById("loading");
+      const tablaCuerpo = document.getElementById("tabla-cuerpo");
+
+      loadingDiv.style.display = "block";
+      tablaCuerpo.innerHTML = "";
+
+      try {
+        const response = await fetch(`${API_URL}?aula=${aula}`);
+        const resultado = await response.json();
+
+        loadingDiv.style.display = "none";
+
+        if (resultado.status === "success") {
+          if (resultado.alumnos.length === 0) {
+            tablaCuerpo.innerHTML = `<tr><td colspan="5" style="text-align:center;">No hay alumnos cargados en el aula ${aula}.</td></tr>`;
+            return;
+          }
+
+          resultado.alumnos.forEach(alumno => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+              <td>${alumno.legajo}</td>
+              <td>${alumno.apellido}, ${alumno.nombre}</td>
+              <td><input type="text" value="${alumno.abdominalesMarca}" onchange="guardarCambio('${aula}', '${alumno.legajo}', 'abdominales', this.value)"></td>
+              <td><input type="text" value="${alumno.flexionesMarca}" onchange="guardarCambio('${aula}', '${alumno.legajo}', 'flexiones', this.value)"></td>
+              <td><input type="text" value="${alumno.m1125Marca}" onchange="guardarCambio('${aula}', '${alumno.legajo}', '1125mts', this.value)"></td>
+            `;
+            tablaCuerpo.appendChild(tr);
+          });
+        } else {
+          alert("Error al cargar: " + resultado.message);
+        }
+      } catch (error) {
+        loadingDiv.style.display = "none";
+        console.error("Error:", error);
+        alert("No se pudo conectar con la planilla de Google.");
+      }
+    }
+
+    async function guardarCambio(aula, legajo, campo, valor) {
+      try {
+        const payload = {
+          aula: aula,
+          legajo: legajo,
+          campo: campo,
+          valor: valor
         };
 
-        // Estado de la aplicación
-        let currentGender = 'M';
-        let currentTest = 'abdominales';
-
-        // Elementos DOM
-        const genderBtns = document.querySelectorAll('.gender-btn');
-        const testSelect = document.getElementById('testSelect');
-        const scoreInput = document.getElementById('scoreInput');
-        const inputLabel = document.getElementById('inputLabel');
-        const helperText = document.getElementById('helperText');
-        const gradeDisplay = document.getElementById('gradeDisplay');
-        const gradeStatus = document.getElementById('gradeStatus');
-        const gradeDetail = document.getElementById('gradeDetail');
-        const activeTableTitle = document.getElementById('activeTableTitle');
-        const colMetricHeader = document.getElementById('colMetricHeader');
-        const activeTableBody = document.getElementById('activeTableBody');
-
-        // Modal
-        const modal = document.getElementById('baremosModal');
-        const openModalBtn = document.getElementById('openModalBtn');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-        const allTablesContainer = document.getElementById('allTablesContainer');
-
-        // Convertir texto de tiempo ("3:45" o "225") a segundos totales
-        function parseTimeToSeconds(val) {
-            const clean = val.trim();
-            if (!clean) return null;
-
-            if (clean.includes(':')) {
-                const parts = clean.split(':');
-                if (parts.length !== 2) return null;
-                const mins = parseInt(parts[0], 10);
-                const secs = parseFloat(parts[1].replace(',', '.'));
-                if (isNaN(mins) || isNaN(secs) || mins < 0 || secs < 0 || secs >= 60) return null;
-                return (mins * 60) + secs;
-            } else {
-                const num = parseFloat(clean.replace(',', '.'));
-                if (isNaN(num) || num < 0) return null;
-                return num;
-            }
-        }
-
-        function formatSeconds(totalSec) {
-            const m = Math.floor(totalSec / 60);
-            const s = Math.round(totalSec % 60);
-            return `${m}:${s < 10 ? '0' : ''}${s}`;
-        }
-
-        // Actualizar textos de ayuda según prueba
-        function updateInputUI() {
-            const testObj = BAREMOS[currentTest];
-            if (testObj.tipo === 'reps') {
-                inputLabel.textContent = 'Cantidad de repeticiones';
-                scoreInput.placeholder = currentTest === 'abdominales' ? 'Ej: 45' : 'Ej: 38';
-                helperText.textContent = 'Ingresá la cantidad exacta de repeticiones realizadas.';
-                colMetricHeader.textContent = 'Cantidades';
-            } else {
-                inputLabel.textContent = 'Tiempo registrado (mm:ss o segundos)';
-                scoreInput.placeholder = currentTest === '1125mts' ? 'Ej: 4:15' : 'Ej: 1:02';
-                helperText.textContent = 'Podés escribir minutos:segundos (ej: 4:15) o segundos totales (ej: 255).';
-                colMetricHeader.textContent = 'Tiempo';
-            }
-        }
-
-        // Renderizar la tabla lateral activa
-        function renderActiveTable(matchedNota = null) {
-            const testObj = BAREMOS[currentTest];
-            const rows = testObj[currentGender];
-            const genderText = currentGender === 'M' ? 'Masculino' : 'Femenino';
-            activeTableTitle.textContent = `Tabulación: ${testObj.nombre} (${genderText})`;
-
-            activeTableBody.innerHTML = '';
-            rows.forEach(row => {
-                const tr = document.createElement('tr');
-                if (matchedNota !== null && row.nota === matchedNota) {
-                    tr.className = row.nota === 0 ? 'highlight-row-zero' : 'highlight-row';
-                }
-                tr.innerHTML = `
-                    <td>${row.texto}</td>
-                    <td><strong>${row.nota}</strong></td>
-                `;
-                activeTableBody.appendChild(tr);
-            });
-        }
-
-        // Evaluar el dato ingresado
-        function evaluateScore() {
-            const rawVal = scoreInput.value.trim();
-            const testObj = BAREMOS[currentTest];
-            const rows = testObj[currentGender];
-
-            if (!rawVal) {
-                gradeDisplay.textContent = '-';
-                gradeDisplay.style.color = 'var(--text-secondary)';
-                gradeStatus.textContent = 'Esperando dato...';
-                gradeStatus.style.background = 'rgba(148, 163, 184, 0.15)';
-                gradeStatus.style.color = 'var(--text-secondary)';
-                gradeDetail.textContent = 'Ingresá una marca para obtener la calificación.';
-                renderActiveTable(null);
-                return;
-            }
-
-            let numericValue = null;
-
-            if (testObj.tipo === 'reps') {
-                if (!/^\d+$/.test(rawVal)) {
-                    showInvalid('Ingresá solo números enteros para repeticiones.');
-                    return;
-                }
-                numericValue = parseInt(rawVal, 10);
-            } else {
-                numericValue = parseTimeToSeconds(rawVal);
-                if (numericValue === null) {
-                    showInvalid('Formato de tiempo inválido. Usá mm:ss (ej: 4:10) o segundos.');
-                    return;
-                }
-            }
-
-            // Buscar en el baremo correspondiente
-            let foundRow = null;
-            for (const r of rows) {
-                if (numericValue >= r.min && numericValue <= r.max) {
-                    foundRow = r;
-                    break;
-                }
-            }
-
-            // Respaldo de seguridad
-            if (!foundRow) {
-                foundRow = rows[rows.length - 1];
-            }
-
-            const nota = foundRow.nota;
-            gradeDisplay.textContent = nota;
-
-            // Estilos visuales según calificación
-            if (nota === 0) {
-                gradeDisplay.style.color = 'var(--danger)';
-                gradeStatus.textContent = 'Sin puntaje (0)';
-                gradeStatus.style.background = 'rgba(239, 68, 68, 0.18)';
-                gradeStatus.style.color = 'var(--danger)';
-            } else if (nota < 4) {
-                gradeDisplay.style.color = 'var(--warning)';
-                gradeStatus.textContent = 'Desaprobado';
-                gradeStatus.style.background = 'rgba(245, 158, 11, 0.18)';
-                gradeStatus.style.color = 'var(--warning)';
-            } else if (nota < 7) {
-                gradeDisplay.style.color = 'var(--accent)';
-                gradeStatus.textContent = 'Aprobado';
-                gradeStatus.style.background = 'rgba(56, 189, 248, 0.18)';
-                gradeStatus.style.color = 'var(--accent)';
-            } else {
-                gradeDisplay.style.color = 'var(--success)';
-                gradeStatus.textContent = nota === 10 ? 'Excelente' : 'Muy Bueno';
-                gradeStatus.style.background = 'rgba(34, 197, 94, 0.18)';
-                gradeStatus.style.color = 'var(--success)';
-            }
-
-            const marcaTexto = testObj.tipo === 'reps'
-                ? `${numericValue} repeticiones`
-                : `${formatSeconds(numericValue)} (${numericValue} seg)`;
-
-            gradeDetail.textContent = `Marca evaluada: ${marcaTexto} • Rango: ${foundRow.texto}`;
-            renderActiveTable(nota);
-        }
-
-        function showInvalid(msg) {
-            gradeDisplay.textContent = '!';
-            gradeDisplay.style.color = 'var(--warning)';
-            gradeStatus.textContent = 'Dato no válido';
-            gradeStatus.style.background = 'rgba(245, 158, 11, 0.18)';
-            gradeStatus.style.color = 'var(--warning)';
-            gradeDetail.textContent = msg;
-            renderActiveTable(null);
-        }
-
-        // Generar todas las tablas en el modal
-        function renderAllBaremosModal() {
-            allTablesContainer.innerHTML = '';
-            Object.keys(BAREMOS).forEach(key => {
-                const test = BAREMOS[key];
-                const card = document.createElement('div');
-                card.className = 'mini-table-card';
-
-                let rowsHtml = '';
-                for (let i = 0; i < test.M.length; i++) {
-                    rowsHtml += `
-                        <tr>
-                            <td>${test.M[i].texto}</td>
-                            <td><strong>${test.M[i].nota}</strong></td>
-                            <td>${test.F[i].texto}</td>
-                        </tr>
-                    `;
-                }
-
-                card.innerHTML = `
-                    <h3>${test.nombre}</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Masculino</th>
-                                <th>Nota</th>
-                                <th>Femenino</th>
-                            </tr>
-                        </thead>
-                        <tbody>${rowsHtml}</tbody>
-                    </table>
-                `;
-                allTablesContainer.appendChild(card);
-            });
-        }
-
-        // Eventos
-        genderBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                genderBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentGender = btn.dataset.gender;
-                evaluateScore();
-            });
+        const response = await fetch(API_URL, {
+          method: "POST",
+          body: JSON.stringify(payload)
         });
 
-        testSelect.addEventListener('change', (e) => {
-            currentTest = e.target.value;
-            scoreInput.value = '';
-            updateInputUI();
-            evaluateScore();
-        });
-
-        scoreInput.addEventListener('input', evaluateScore);
-
-        openModalBtn.addEventListener('click', () => {
-            renderAllBaremosModal();
-            modal.classList.add('open');
-        });
-
-        closeModalBtn.addEventListener('click', () => {
-            modal.classList.remove('open');
-        });
-
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) modal.classList.remove('open');
-        });
-
-        // Inicializar
-        updateInputUI();
-        renderActiveTable();
-    </script>
-
-    <!-- Registro del Service Worker para habilitar instalación en dispositivos móviles -->
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .catch(err => console.log('Error al registrar SW:', err));
-        });
+        const resultado = await response.json();
+        if (resultado.status !== "success") {
+          console.error("Error al guardar en la hoja:", resultado.message);
+        } else {
+          console.log("Guardado exitoso");
+        }
+      } catch (error) {
+        console.error("Error de red al intentar guardar:", error);
       }
-    </script>
+    }
+  </script>
 </body>
 </html>
